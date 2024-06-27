@@ -32,10 +32,14 @@ public class ClienteControlador {
 
     @PutMapping("/{id}")
     public ResponseEntity<ClienteDTO> atualizarCliente(@PathVariable Long id, @Valid @RequestBody ClienteDTO clienteDTO) {
-        ClienteDTO updatedClienteDTO = servico.atualizar(id, clienteDTO);
-        return ResponseEntity.ok(updatedClienteDTO);
+        ClienteDTO atualizarClienteDTO = servico.atualizar(id, clienteDTO);
+        return ResponseEntity.ok(atualizarClienteDTO);
     }
 
-    //DELETE - /v1/customers/:id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirCliente(@PathVariable Long id) {
+        servico.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

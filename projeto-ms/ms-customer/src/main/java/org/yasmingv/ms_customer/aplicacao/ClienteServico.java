@@ -48,8 +48,16 @@ public class ClienteServico {
         clienteExistente.setEmail(clienteDTO.getEmail());
         clienteExistente.setUrl_foto(clienteDTO.getUrl_foto());
 
-        Cliente updatedCliente = repositorio.save(clienteExistente);
+        Cliente atualizarCliente = repositorio.save(clienteExistente);
 
-        return new ClienteDTO(updatedCliente);
+        return new ClienteDTO(atualizarCliente);
+    }
+
+    @Transactional
+    public void excluir(Long id) {
+        Cliente cliente = repositorio.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        repositorio.delete(cliente);
     }
 }
