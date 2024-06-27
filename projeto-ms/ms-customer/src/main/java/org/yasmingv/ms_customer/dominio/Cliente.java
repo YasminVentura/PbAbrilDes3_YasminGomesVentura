@@ -22,7 +22,7 @@ public class Cliente {
     @Column(name = "NOME", length = 100, nullable = false)
     private String nome;
 
-    @Column(name = "GENERO", length = 6, nullable = false)
+    @Column(name = "GENERO", length = 9, nullable = false)
     private String genero;
 
     @Column(name = "ANIVERSARIO", nullable = false)
@@ -32,17 +32,17 @@ public class Cliente {
     @Column(name = "EMAIL", length = 50, nullable = false, unique = true)
     private String email;
 
-    @Column(name = "PONTOS", nullable = false) //
-    private String pontos;
+    @Column(name = "PONTOS")
+    private Integer pontos = 0;
 
-    @Column(name = "URL_FOTO", nullable = false) //
+    @Column(name = "URL_FOTO", nullable = false)
     private String url_foto;
 
-    public Cliente(String cpf, String nome, String genero, LocalDate nascimento, String email, String url_foto) {
+    public Cliente(String cpf, String nome, String genero, LocalDate aniversario, String email, String url_foto) {
         this.cpf = cpf;
         this.nome = nome;
         this.genero = genero;
-        this.aniversario = nascimento;
+        this.aniversario = aniversario;
         this.email = email;
         this.url_foto = url_foto;
     }
