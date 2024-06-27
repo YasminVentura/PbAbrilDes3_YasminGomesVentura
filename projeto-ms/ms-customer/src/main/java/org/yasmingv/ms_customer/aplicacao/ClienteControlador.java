@@ -30,7 +30,11 @@ public class ClienteControlador {
         return ResponseEntity.ok(clienteDTO);
     }
 
-    // PUT - /v1/customers/:id
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteDTO> atualizarCliente(@PathVariable Long id, @Valid @RequestBody ClienteDTO clienteDTO) {
+        ClienteDTO updatedClienteDTO = servico.atualizar(id, clienteDTO);
+        return ResponseEntity.ok(updatedClienteDTO);
+    }
 
     //DELETE - /v1/customers/:id
 
