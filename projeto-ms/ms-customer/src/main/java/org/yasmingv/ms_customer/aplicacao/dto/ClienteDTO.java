@@ -33,6 +33,18 @@ public class ClienteDTO {
 
     private String url_foto;
 
+    public ClienteDTO() {
+    }
+
+    public ClienteDTO(Cliente cliente) {
+        this.cpf = cliente.getCpf();
+        this.nome = cliente.getNome();
+        this.genero = cliente.getGenero();
+        this.aniversario = cliente.getAniversario();
+        this.email = cliente.getEmail();
+        this.url_foto = cliente.getUrl_foto();
+    }
+
     public Cliente paraCliente(){
         return new Cliente(cpf, nome, genero, aniversario, email, url_foto);
     }

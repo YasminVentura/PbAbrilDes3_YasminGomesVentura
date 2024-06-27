@@ -3,10 +3,9 @@ package org.yasmingv.ms_customer.aplicacao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.yasmingv.ms_customer.aplicacao.dto.ClienteDTO;
 import org.yasmingv.ms_customer.dominio.Cliente;
 import org.yasmingv.ms_customer.infra.ClienteRepositorio;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,14 +14,21 @@ public class ClienteServico {
     private final ClienteRepositorio repositorio;
 
     @Transactional
-    public Cliente salvar(Cliente cliente) {
-        if (repositorio.findByEmail(cliente.getEmail()).isPresent()) {
+    public ClienteDTO salvar(ClienteDTO clienteDTO) {
+        if (repositorio.findByEmail(clienteDTO.getEmail()).isPresent()) {
             throw new RuntimeException("Email já existe");
         }
-        return repositorio.save(cliente);
+
+        Cliente cliente = clienteDTO.paraCliente();
+        Cliente svCliente = repositorio.save(cliente);
+
+        return new ClienteDTO(svCliente);
     }
 
-    public Optional<Cliente> buscarClientePorId(Long id) {
-        return repositorio.findById(id);
+    public ClienteDTO buscarPorId(Long id) {
+        Cliente cliente = repositorio.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        return new ClienteDTO(cliente);
     }
 }
