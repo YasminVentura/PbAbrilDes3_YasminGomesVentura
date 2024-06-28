@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.yasmingv.ms_customer.aplicacao.dto.ClienteDTO;
@@ -26,7 +27,7 @@ public class ClienteControlador {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ClienteDTO.class))))
     public ResponseEntity<ClienteDTO> criarCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
         ClienteDTO svClienteDTO = servico.salvar(clienteDTO);
-        return ResponseEntity.ok(svClienteDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(svClienteDTO);
     }
 
     @GetMapping("/{id}")

@@ -65,6 +65,16 @@ class ClienteServicoTest {
     }
 
     @Test
+    public void testSalvarClienteEmailDuplicadoExcecao() {
+        ClienteDTO clienteDTO = criarClienteDTO();
+
+        Cliente clienteExistente = criarCliente();
+        when(repositorioMock.findByEmail(clienteDTO.getEmail())).thenReturn(Optional.of(clienteExistente));
+
+        assertThrows(Exception.class, () -> clienteServico.salvar(clienteDTO));
+    }
+
+    @Test
     void testBuscarClientePorIdExistente() {
         Long id = 1L;
         Cliente cliente = criarCliente();
@@ -102,6 +112,15 @@ class ClienteServicoTest {
 
         assertNotNull(resultadoDTO);
         assertEquals(clienteDTO.getNome(), resultadoDTO.getNome());
+    }
+
+    @Test
+    public void testAtualizarClienteIdInexistenteExcecao() {
+        Long IdInexistente = 10L;
+
+        when(repositorioMock.findById(IdInexistente)).thenReturn(Optional.empty());
+
+        assertThrows(Exception.class, () -> clienteServico.atualizar(IdInexistente, criarClienteDTO()));
     }
 
     @Test
