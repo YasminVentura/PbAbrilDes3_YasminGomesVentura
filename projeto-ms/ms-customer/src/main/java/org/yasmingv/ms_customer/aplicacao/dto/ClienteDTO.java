@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @Data
 public class ClienteDTO {
 
+    private Long id;
+
     //@CPF
     private String cpf;
 
@@ -37,6 +39,7 @@ public class ClienteDTO {
     }
 
     public ClienteDTO(Cliente cliente) {
+        this.id = cliente.getId();
         this.cpf = cliente.getCpf();
         this.nome = cliente.getNome();
         this.genero = cliente.getGenero();
