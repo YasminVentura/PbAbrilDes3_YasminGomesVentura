@@ -7,6 +7,9 @@ import org.yasmingv.ms_calculate.aplicacao.dto.RegrasDTO;
 import org.yasmingv.ms_calculate.dominio.Regras;
 import org.yasmingv.ms_calculate.infra.RegrasRepositorio;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class RegrasServico {
@@ -19,5 +22,13 @@ public class RegrasServico {
         Regras vregras = repositorio.save(regras);
 
         return new RegrasDTO(vregras);
+    }
+
+    public List<RegrasDTO> buscarTodasRegras() {
+        List<Regras> regras = repositorio.findAll();
+
+        return regras.stream()
+                .map(RegrasDTO::new)
+                .collect(Collectors.toList());
     }
 }
