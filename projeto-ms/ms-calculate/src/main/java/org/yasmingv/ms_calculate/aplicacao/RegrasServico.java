@@ -1,4 +1,4 @@
 package org.yasmingv.ms_calculate.aplicacao;
 
-public class CalculadorControlador {
+public class RegrasServico {
 }
