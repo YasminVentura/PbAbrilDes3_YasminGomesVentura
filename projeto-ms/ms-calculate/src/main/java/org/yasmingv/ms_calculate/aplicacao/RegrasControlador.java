@@ -37,13 +37,21 @@ public class RegrasControlador {
     @Operation(summary = "Buscar todas as regras",
             description = "Recurso para buscar todas as regras cadastradas no sistema")
     public ResponseEntity<List<RegrasDTO>> listarRegras() {
-         List<RegrasDTO> regrasDTO = servico.buscarTodasRegras();
-        return ResponseEntity.ok(regrasDTO);
+         List<RegrasDTO> regras = servico.buscarTodasRegras();
+        return ResponseEntity.ok(regras);
     }
 
 
-    //PUT - /v1/rules/:id
-
+    @PutMapping("/{id}")
+    @Operation(summary = "Atualizar regra",
+            description = "Recurso para atualizar uma regra existente através de um JSON",
+            responses = @ApiResponse(responseCode = "200", description = "Regra atualizada com sucesso.",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = RegrasDTO.class)))
+            )
+    public ResponseEntity<RegrasDTO> atualizarRegra(@PathVariable Long id, @Valid @RequestBody RegrasDTO regrasDTO) {
+        RegrasDTO regras = servico.atualizar(id, regrasDTO);
+        return ResponseEntity.ok(regras);
+    }
 
     //DELETE - /v1/rules/:id
 

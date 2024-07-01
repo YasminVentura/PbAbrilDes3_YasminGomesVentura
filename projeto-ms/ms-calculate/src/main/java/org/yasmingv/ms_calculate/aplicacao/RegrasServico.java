@@ -31,4 +31,17 @@ public class RegrasServico {
                 .map(RegrasDTO::new)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public RegrasDTO atualizar(Long id, RegrasDTO regrasDTO) {
+        Regras regraExistente = repositorio.findById(id)
+                .orElseThrow(() -> new RuntimeException("Regra não encontrada"));
+
+        regraExistente.setCategoria(regrasDTO.getCategoria());
+        regraExistente.setPariedade(regrasDTO.getPariedade());
+
+        Regras regras = repositorio.save(regraExistente);
+
+        return new RegrasDTO(regras);
+    }
 }
