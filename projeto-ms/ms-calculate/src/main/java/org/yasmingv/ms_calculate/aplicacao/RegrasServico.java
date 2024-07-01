@@ -44,4 +44,13 @@ public class RegrasServico {
 
         return new RegrasDTO(regras);
     }
+
+    @Transactional
+    public void excluir(Long id) {
+        Regras regras = repositorio.findById(id)
+                .orElseThrow(() -> new RuntimeException("Regra não encontrada"));
+
+        repositorio.delete(regras);
+    }
+
 }

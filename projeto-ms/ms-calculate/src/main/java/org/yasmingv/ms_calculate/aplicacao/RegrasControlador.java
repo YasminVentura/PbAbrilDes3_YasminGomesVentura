@@ -53,6 +53,13 @@ public class RegrasControlador {
         return ResponseEntity.ok(regras);
     }
 
-    //DELETE - /v1/rules/:id
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar regra por ID",
+            description = "Recurso para deletar uma regra por ID",
+            responses = @ApiResponse(responseCode = "204"))
+    public ResponseEntity<Void> excluirRegra(@PathVariable Long id) {
+        servico.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
