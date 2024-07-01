@@ -17,9 +17,13 @@ public class RegrasDTO {
     @NotBlank
     private String pariedade;
 
-    public RegrasDTO (Regras regras){
+    public RegrasDTO(Regras regras){
         this.id = regras.getId();
         this.categoria = regras.getCategoria();
         this.pariedade = regras.getPariedade();
+    }
+
+    public Regras paraRegras(){
+        return new Regras(categoria, pariedade);
     }
 }
