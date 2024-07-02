@@ -1,7 +1,6 @@
 spring:
   application:
     name: ms-customer
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://desafio-tres.cpoyccc6ye4g.us-east-1.rds.amazonaws.com/projeto_ms
