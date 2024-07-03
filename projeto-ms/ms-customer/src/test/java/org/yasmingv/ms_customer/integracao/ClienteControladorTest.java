@@ -85,5 +85,34 @@ class ClienteControladorTest {
         assertEquals(clienteDTO.getUrl_foto(), responseBody.getUrl_foto());
     }
 
+    @Test
+    void atualizarCliente_retorarSTTS200() {
+        Long id = 1L;
+        ClienteDTO clienteDTO = criarClienteDTO();
+
+        ClienteDTO clienteAtualizadoDTO = criarClienteDTO();
+        clienteAtualizadoDTO.setId(id);
+        clienteAtualizadoDTO.setNome("Marcos Silva");
+
+        when(clienteServico.atualizar(any(Long.class), any(ClienteDTO.class))).thenReturn(clienteAtualizadoDTO);
+
+        ResponseEntity<ClienteDTO> responseEntity = clienteControlador.atualizarCliente(id, clienteDTO);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        ClienteDTO responseBody = responseEntity.getBody();
+        assert responseBody != null;
+        assertEquals(id, responseBody.getId());
+        assertEquals("Marcos Silva", responseBody.getNome());
+        assertEquals("123.456.789-00", responseBody.getCpf());
+        assertEquals("Masculino", responseBody.getGenero());
+        assertEquals(LocalDate.of(1990, 1, 1), responseBody.getAniversario());
+        assertEquals("marcos.band@exemplo.com", responseBody.getEmail());
+        assertEquals("examplofoto.jpg", responseBody.getUrl_foto());
+    }
+
+    @Test
+    void deletarCliente_retornarSTTS204(){
+
+    }
 
 }
