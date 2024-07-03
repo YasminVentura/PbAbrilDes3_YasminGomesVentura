@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.yasmingv.ms_customer.aplicacao.dto.ClienteDTO;
+import org.yasmingv.ms_customer.excecoes.MensagemErro;
 
 @Tag(name = "Cliente", description = "Endpoints relacionados ao cliente")
 @RestController
@@ -21,10 +22,21 @@ public class ClienteControlador {
     private final ClienteServico servico;
 
     @PostMapping
-    @Operation(summary = "Criar cliente",
+    @Operation(
+            summary = "Criar cliente",
             description = "Recurso para criar um novo cliente através de um JSON",
-            responses = @ApiResponse(responseCode = "201", description = "Cliente criado com sucesso.",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ClienteDTO.class))))
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Cliente criado com sucesso.",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ClienteDTO.class))),
+                    @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MensagemErro.class))),
+                    @ApiResponse(responseCode = "409", description = "Conflito! E-mail duplicado",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MensagemErro.class)))
+            }
+    )
     public ResponseEntity<ClienteDTO> criarCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
         ClienteDTO svClienteDTO = servico.salvar(clienteDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(svClienteDTO);
@@ -33,8 +45,15 @@ public class ClienteControlador {
     @GetMapping("/{id}")
     @Operation(summary = "Buscar cliente por ID",
             description = "Recurso para buscar um cliente por ID",
-            responses = @ApiResponse(responseCode = "200", description = "Cliente encontrado com sucesso.",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ClienteDTO.class))))
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Cliente encontrado com sucesso.",
+                        content = @Content(mediaType = "application/json",
+                                schema = @Schema(implementation = ClienteDTO.class))),
+                    @ApiResponse(responseCode = "404", description = "Cliente não encontrado",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MensagemErro.class)))
+            }
+    )
     public ResponseEntity<ClienteDTO> buscarCliente(@PathVariable Long id) {
         ClienteDTO clienteDTO = servico.buscarPorId(id);
         return ResponseEntity.ok(clienteDTO);

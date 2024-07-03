@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.yasmingv.ms_customer.excecoes.ex.ClienteNaoEncontradoExcecao;
 import org.yasmingv.ms_customer.excecoes.ex.EmailDuplicadoExcecao;
 
 import java.time.LocalDateTime;
@@ -49,6 +50,17 @@ public class ApiExceptionHandler {
         mensagemErro.setMensagem(ex.getMessage());
 
         return new ResponseEntity<>(mensagemErro, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(ClienteNaoEncontradoExcecao.class)
+    public ResponseEntity<MensagemErro> handleClienteNaoEncontradoExcecao(ClienteNaoEncontradoExcecao ex) {
+        MensagemErro mensagemErro = new MensagemErro();
+        mensagemErro.setTimestamp(LocalDateTime.now());
+        mensagemErro.setStatus(HttpStatus.NOT_FOUND.value());
+        mensagemErro.setError("Não encontrado");
+        mensagemErro.setMensagem(ex.getMessage());
+
+        return new ResponseEntity<>(mensagemErro, HttpStatus.NOT_FOUND);
     }
 
 }
