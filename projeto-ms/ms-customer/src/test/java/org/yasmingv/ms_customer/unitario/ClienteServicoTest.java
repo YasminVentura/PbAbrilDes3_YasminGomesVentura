@@ -67,7 +67,15 @@ class ClienteServicoTest {
     }
 
     @Test
-    public void testSalvarClienteEmailDuplicadoExcecao() {
+    void testSalvarClienteExcecaoCampoNulo() {
+        ClienteDTO clienteDTO = criarClienteDTO();
+        clienteDTO.setEmail(null);
+
+        assertThrows(NullPointerException.class, () -> clienteServico.salvar(clienteDTO));
+    }
+
+    @Test
+    void testSalvarClienteEmailDuplicadoExcecao() {
         ClienteDTO clienteDTO = criarClienteDTO();
 
         Cliente clienteExistente = criarCliente();
@@ -117,12 +125,40 @@ class ClienteServicoTest {
     }
 
     @Test
-    public void testAtualizarClienteIdInexistenteExcecao() {
+    void testAtualizarClienteExcecaoCampoNulo() {
+        Long id = 1L;
+        ClienteDTO clienteDTO = criarClienteDTO();
+        clienteDTO.setEmail(null);
+
+        Cliente clienteExistente = criarCliente();
+        clienteExistente.setId(id);
+
+        when(repositorioMock.findById(id)).thenReturn(Optional.of(clienteExistente));
+
+        assertThrows(NullPointerException.class, () -> clienteServico.atualizar(id, clienteDTO));
+    }
+
+    @Test
+    void testAtualizarClienteIdInexistenteExcecao() {
         Long IdInexistente = 10L;
 
         when(repositorioMock.findById(IdInexistente)).thenReturn(Optional.empty());
 
         assertThrows(ClienteNaoEncontradoExcecao.class, () -> clienteServico.atualizar(IdInexistente, criarClienteDTO()));
+    }
+
+    @Test
+    void testAtualizarClienteEmailDuplicadoExcecao() {
+        Long id = 1L;
+        ClienteDTO clienteDTO = criarClienteDTO();
+        clienteDTO.setEmail("duplicado@exemplo.com");
+
+        Cliente clienteExistente = criarCliente();
+        clienteExistente.setId(id);
+        when(repositorioMock.findById(id)).thenReturn(Optional.of(clienteExistente));
+        when(repositorioMock.findByEmail(clienteDTO.getEmail())).thenReturn(Optional.of(new Cliente()));
+
+        assertThrows(EmailDuplicadoExcecao.class, () -> clienteServico.atualizar(id, clienteDTO));
     }
 
     @Test
@@ -136,4 +172,13 @@ class ClienteServicoTest {
 
         verify(repositorioMock, times(1)).delete(cliente);
     }
+
+    @Test
+    void testExcluirClienteExcecaoIdNaoEncontrado() {
+        Long id = 1L;
+
+        when(repositorioMock.findById(id)).thenReturn(Optional.empty());
+        assertThrows(ClienteNaoEncontradoExcecao.class, () -> clienteServico.excluir(id));
+    }
+
 }
