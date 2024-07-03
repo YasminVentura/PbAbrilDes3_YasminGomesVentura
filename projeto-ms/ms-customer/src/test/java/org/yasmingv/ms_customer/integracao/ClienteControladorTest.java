@@ -15,6 +15,7 @@ import java.time.LocalDate;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -111,8 +112,13 @@ class ClienteControladorTest {
     }
 
     @Test
-    void deletarCliente_retornarSTTS204(){
+    void deletarCliente_retornarSTTS204() {
+        Long id = 1L;
 
+        ResponseEntity<Void> responseEntity = clienteControlador.excluirCliente(id);
+
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
     }
 
 }
