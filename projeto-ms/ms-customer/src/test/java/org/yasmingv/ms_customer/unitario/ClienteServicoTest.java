@@ -9,6 +9,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.yasmingv.ms_customer.aplicacao.ClienteServico;
 import org.yasmingv.ms_customer.aplicacao.dto.ClienteDTO;
 import org.yasmingv.ms_customer.dominio.Cliente;
+import org.yasmingv.ms_customer.excecoes.ex.ClienteNaoEncontradoExcecao;
+import org.yasmingv.ms_customer.excecoes.ex.EmailDuplicadoExcecao;
 import org.yasmingv.ms_customer.infra.ClienteRepositorio;
 
 import java.time.LocalDate;
@@ -71,7 +73,7 @@ class ClienteServicoTest {
         Cliente clienteExistente = criarCliente();
         when(repositorioMock.findByEmail(clienteDTO.getEmail())).thenReturn(Optional.of(clienteExistente));
 
-        assertThrows(Exception.class, () -> clienteServico.salvar(clienteDTO));
+        assertThrows(EmailDuplicadoExcecao.class, () -> clienteServico.salvar(clienteDTO));
     }
 
     @Test
@@ -93,7 +95,7 @@ class ClienteServicoTest {
 
         when(repositorioMock.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> clienteServico.buscarPorId(id));
+        assertThrows(ClienteNaoEncontradoExcecao.class, () -> clienteServico.buscarPorId(id));
     }
 
     @Test
@@ -120,7 +122,7 @@ class ClienteServicoTest {
 
         when(repositorioMock.findById(IdInexistente)).thenReturn(Optional.empty());
 
-        assertThrows(Exception.class, () -> clienteServico.atualizar(IdInexistente, criarClienteDTO()));
+        assertThrows(ClienteNaoEncontradoExcecao.class, () -> clienteServico.atualizar(IdInexistente, criarClienteDTO()));
     }
 
     @Test
