@@ -62,8 +62,21 @@ public class ClienteControlador {
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar dados por ID",
             description = "Recurso para atualizar dados de um cliente por ID",
-            responses = @ApiResponse(responseCode = "200", description = "Dados atualizados com sucesso.",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ClienteDTO.class)))    )
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Dados atualizados com sucesso.",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ClienteDTO.class))),
+                    @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MensagemErro.class))),
+                    @ApiResponse(responseCode = "404", description = "Cliente não encontrado",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MensagemErro.class))),
+                    @ApiResponse(responseCode = "409", description = "Conflito! E-mail duplicado",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MensagemErro.class)))
+            }
+    )
     public ResponseEntity<ClienteDTO> atualizarCliente(@PathVariable Long id, @Valid @RequestBody ClienteDTO clienteDTO) {
         ClienteDTO atualizarClienteDTO = servico.atualizar(id, clienteDTO);
         return ResponseEntity.ok(atualizarClienteDTO);
@@ -72,7 +85,13 @@ public class ClienteControlador {
     @DeleteMapping("/{id}")
     @Operation(summary = "Deletar cliente por ID",
             description = "Recurso para deletar um cliente por ID",
-            responses = @ApiResponse(responseCode = "204"))
+            responses = {
+                    @ApiResponse(responseCode = "204"),
+                    @ApiResponse(responseCode = "404", description = "Cliente não encontrado",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MensagemErro.class))),
+            }
+    )
     public ResponseEntity<Void> excluirCliente(@PathVariable Long id) {
         servico.excluir(id);
         return ResponseEntity.noContent().build();

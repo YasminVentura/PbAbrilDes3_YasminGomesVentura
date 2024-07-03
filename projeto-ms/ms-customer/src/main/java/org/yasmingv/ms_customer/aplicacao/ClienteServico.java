@@ -58,7 +58,7 @@ public class ClienteServico {
     @Transactional
     public void excluir(Long id) {
         Cliente cliente = repositorio.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ClienteNaoEncontradoExcecao("Cliente não encontrado"));
 
         repositorio.delete(cliente);
     }
