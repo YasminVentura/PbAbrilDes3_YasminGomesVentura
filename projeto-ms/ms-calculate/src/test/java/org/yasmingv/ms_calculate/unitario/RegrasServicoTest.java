@@ -9,6 +9,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.yasmingv.ms_calculate.aplicacao.RegrasServico;
 import org.yasmingv.ms_calculate.aplicacao.dto.RegrasDTO;
 import org.yasmingv.ms_calculate.dominio.Regras;
+import org.yasmingv.ms_calculate.excecoes.ex.RegraNaoEncontradoExcecao;
 import org.yasmingv.ms_calculate.infra.RegrasRepositorio;
 
 import java.util.Arrays;
@@ -16,13 +17,12 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DirtiesContext
-public class RegrasServicoTest {
+class RegrasServicoTest {
 
     @Mock
     private RegrasRepositorio repositorioMock;
@@ -33,7 +33,7 @@ public class RegrasServicoTest {
     private RegrasDTO criarRegraDTO() {
         RegrasDTO regrasDTO = new RegrasDTO();
         regrasDTO.setCategoria("Computador");
-        regrasDTO.setPariedade("10");
+        regrasDTO.setPariedade(10);
         return regrasDTO;
     }
 
@@ -41,7 +41,7 @@ public class RegrasServicoTest {
         Regras regras = new Regras();
         regras.setId(1L);
         regras.setCategoria("Computador");
-        regras.setPariedade("10");
+        regras.setPariedade(10);
         return regras;
     }
 
@@ -56,6 +56,14 @@ public class RegrasServicoTest {
 
         assertThat(dtoSalvo).isNotNull();
         assertThat(dtoSalvo.getId()).isEqualTo(regraSalva.getId());
+    }
+
+    @Test
+    void testSalvarRegrasExcecaoCampoNulo() {
+        RegrasDTO regrasDTO = criarRegraDTO();
+        regrasDTO.setCategoria(null);
+
+        assertThrows(NullPointerException.class, () -> servico.salvar(regrasDTO));
     }
 
     @Test
@@ -83,7 +91,7 @@ public class RegrasServicoTest {
         Long id = 1L;
         RegrasDTO regrasDTO = criarRegraDTO();
         regrasDTO.setCategoria("Eletrônicos");
-        regrasDTO.setPariedade("15");
+        regrasDTO.setPariedade(15);
 
         Regras regraExistente = criarRegra();
         regraExistente.setId(id);
@@ -98,9 +106,32 @@ public class RegrasServicoTest {
         assertEquals(regrasDTO.getPariedade(), resultadoDTO.getPariedade());
     }
 
+    @Test
+    void testAtualizarRegrasExcecaoCampoNulo() {
+        RegrasDTO regrasDTO = criarRegraDTO();
+        regrasDTO.setCategoria(null);
+
+        Regras regraExistente = criarRegra();
+        regraExistente.setId(1L);
+
+
+        when(repositorioMock.findById(1L)).thenReturn(Optional.of(regraExistente));
+
+        assertThrows(NullPointerException.class, () -> servico.atualizar(1L, regrasDTO));
+    }
 
     @Test
-    void testExcluirCliente() {
+    void testAtualizarRegrasExcecaoIdInexistente() {
+        Long IdInexistente = 10L;
+
+        when(repositorioMock.findById(IdInexistente)).thenReturn(Optional.empty());
+
+        assertThrows(RegraNaoEncontradoExcecao.class, () -> servico.atualizar(IdInexistente, criarRegraDTO()));
+    }
+
+
+    @Test
+    void testExcluirRegra() {
         Long id = 1L;
         Regras regra = criarRegra();
 
@@ -109,6 +140,14 @@ public class RegrasServicoTest {
         servico.excluir(id);
 
         verify(repositorioMock, times(1)).delete(regra);
+    }
+
+    @Test
+    void testExcluirRegraExcecaoIdNaoEncontrado() {
+        Long id = 1L;
+
+        when(repositorioMock.findById(id)).thenReturn(Optional.empty());
+        assertThrows(RegraNaoEncontradoExcecao.class, () -> servico.excluir(id));
     }
 
 }

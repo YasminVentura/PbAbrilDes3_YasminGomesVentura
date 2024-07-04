@@ -36,7 +36,7 @@ class CalculadorServicoTest {
         Regras regra = new Regras();
         regra.setId(1L);
         regra.setCategoria("Eletrônicos");
-        regra.setPariedade("20");
+        regra.setPariedade(20);
         return regra;
     }
 
