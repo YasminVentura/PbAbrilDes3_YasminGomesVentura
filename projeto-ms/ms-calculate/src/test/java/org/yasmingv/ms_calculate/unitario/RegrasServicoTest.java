@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DirtiesContext
-public class RegrasServicoTest {
+class RegrasServicoTest {
 
     @Mock
     private RegrasRepositorio repositorioMock;
