@@ -51,4 +51,15 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(mensagemErro, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<MensagemErro> handleIllegalArgumentException(IllegalArgumentException ex) {
+        MensagemErro mensagemErro = new MensagemErro();
+        mensagemErro.setTimestamp(LocalDateTime.now());
+        mensagemErro.setStatus(HttpStatus.BAD_REQUEST.value());
+        mensagemErro.setError("Argumento inválido");
+        mensagemErro.setMensagem(ex.getMessage());
+
+        return new ResponseEntity<>(mensagemErro, HttpStatus.BAD_REQUEST);
+    }
+
 }
