@@ -17,9 +17,9 @@ public class Regras {
     private String categoria;
 
     @Column(name = "PARIEDADE", nullable = false)
-    private String pariedade;
+    private Integer pariedade;
 
-    public Regras(String categoria, String pariedade) {
+    public Regras(String categoria, Integer pariedade) {
         this.categoria = categoria;
         this.pariedade = pariedade;
     }

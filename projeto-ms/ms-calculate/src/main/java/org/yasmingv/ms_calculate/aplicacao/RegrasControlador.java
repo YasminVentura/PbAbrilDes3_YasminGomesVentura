@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.yasmingv.ms_calculate.aplicacao.dto.RegrasDTO;
+import org.yasmingv.ms_calculate.excecoes.MensagemErro;
 
 import java.util.List;
 
@@ -25,8 +26,15 @@ public class RegrasControlador {
     @PostMapping
     @Operation(summary = "Criar regra",
             description = "Recurso para criar uma nova regra através de um JSON",
-            responses = @ApiResponse(responseCode = "201", description = "Regra criada com sucesso.",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = RegrasDTO.class))))
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Regra criada com sucesso.",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = RegrasDTO.class))),
+                    @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MensagemErro.class)))
+            }
+    )
     public ResponseEntity<RegrasDTO> criarRegra(@Valid @RequestBody RegrasDTO regrasDTO) {
         RegrasDTO regras = servico.salvar(regrasDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(regras);
@@ -45,9 +53,18 @@ public class RegrasControlador {
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar regra",
             description = "Recurso para atualizar uma regra existente através de um JSON",
-            responses = @ApiResponse(responseCode = "200", description = "Regra atualizada com sucesso.",
-                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = RegrasDTO.class)))
-            )
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Regra atualizada com sucesso.",
+                        content = @Content(mediaType = "application/json",
+                                schema = @Schema(implementation = RegrasDTO.class))),
+                    @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MensagemErro.class))),
+                    @ApiResponse(responseCode = "404", description = "Regra não encontrada",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MensagemErro.class)))
+            }
+    )
     public ResponseEntity<RegrasDTO> atualizarRegra(@PathVariable Long id, @Valid @RequestBody RegrasDTO regrasDTO) {
         RegrasDTO regras = servico.atualizar(id, regrasDTO);
         return ResponseEntity.ok(regras);
@@ -56,7 +73,13 @@ public class RegrasControlador {
     @DeleteMapping("/{id}")
     @Operation(summary = "Deletar regra por ID",
             description = "Recurso para deletar uma regra por ID",
-            responses = @ApiResponse(responseCode = "204"))
+            responses = {
+                    @ApiResponse(responseCode = "204"),
+                    @ApiResponse(responseCode = "404", description = "Regra não encontrada",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = MensagemErro.class)))
+            }
+    )
     public ResponseEntity<Void> excluirRegra(@PathVariable Long id) {
         servico.excluir(id);
         return ResponseEntity.noContent().build();

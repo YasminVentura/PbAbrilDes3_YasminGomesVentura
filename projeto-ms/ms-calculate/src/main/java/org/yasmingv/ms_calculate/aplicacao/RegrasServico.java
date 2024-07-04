@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yasmingv.ms_calculate.aplicacao.dto.RegrasDTO;
 import org.yasmingv.ms_calculate.dominio.Regras;
+import org.yasmingv.ms_calculate.excecoes.ex.RegraNaoEncontradoExcecao;
 import org.yasmingv.ms_calculate.infra.RegrasRepositorio;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class RegrasServico {
     @Transactional
     public RegrasDTO atualizar(Long id, RegrasDTO regrasDTO) {
         Regras regraExistente = repositorio.findById(id)
-                .orElseThrow(() -> new RuntimeException("Regra não encontrada"));
+                .orElseThrow(() -> new RegraNaoEncontradoExcecao("Regra não encontrada"));
 
         regraExistente.setCategoria(regrasDTO.getCategoria());
         regraExistente.setPariedade(regrasDTO.getPariedade());
@@ -48,7 +49,7 @@ public class RegrasServico {
     @Transactional
     public void excluir(Long id) {
         Regras regras = repositorio.findById(id)
-                .orElseThrow(() -> new RuntimeException("Regra não encontrada"));
+                .orElseThrow(() -> new RegraNaoEncontradoExcecao("Regra não encontrada"));
 
         repositorio.delete(regras);
     }

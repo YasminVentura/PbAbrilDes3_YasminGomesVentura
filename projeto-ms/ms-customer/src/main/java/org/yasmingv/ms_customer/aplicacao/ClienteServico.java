@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.yasmingv.ms_customer.aplicacao.dto.ClienteDTO;
 import org.yasmingv.ms_customer.dominio.Cliente;
+import org.yasmingv.ms_customer.excecoes.ex.ClienteNaoEncontradoExcecao;
+import org.yasmingv.ms_customer.excecoes.ex.EmailDuplicadoExcecao;
 import org.yasmingv.ms_customer.infra.ClienteRepositorio;
 
 @Service
@@ -16,7 +18,7 @@ public class ClienteServico {
     @Transactional
     public ClienteDTO salvar(ClienteDTO clienteDTO) {
         if (repositorio.findByEmail(clienteDTO.getEmail()).isPresent()) {
-            throw new RuntimeException("Email já existe");
+            throw new EmailDuplicadoExcecao("Email já está em uso");
         }
 
         Cliente cliente = clienteDTO.paraCliente();
@@ -27,7 +29,7 @@ public class ClienteServico {
 
     public ClienteDTO buscarPorId(Long id) {
         Cliente cliente = repositorio.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ClienteNaoEncontradoExcecao("Cliente não encontrado"));
 
         return new ClienteDTO(cliente);
     }
@@ -35,10 +37,10 @@ public class ClienteServico {
     @Transactional
     public ClienteDTO atualizar(Long id, ClienteDTO clienteDTO) {
         Cliente clienteExistente = repositorio.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ClienteNaoEncontradoExcecao("Cliente não encontrado"));
 
         if (!clienteExistente.getEmail().equals(clienteDTO.getEmail()) && repositorio.findByEmail(clienteDTO.getEmail()).isPresent()) {
-            throw new RuntimeException("Email já existe");
+            throw new EmailDuplicadoExcecao("Email já existe");
         }
 
         clienteExistente.setCpf(clienteDTO.getCpf());
@@ -56,7 +58,7 @@ public class ClienteServico {
     @Transactional
     public void excluir(Long id) {
         Cliente cliente = repositorio.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                .orElseThrow(() -> new ClienteNaoEncontradoExcecao("Cliente não encontrado"));
 
         repositorio.delete(cliente);
     }

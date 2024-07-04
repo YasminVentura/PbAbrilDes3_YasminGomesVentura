@@ -4,7 +4,6 @@ package org.yasmingv.ms_customer.aplicacao.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-//import org.hibernate.validator.constraints.br.CPF;
 import org.yasmingv.ms_customer.dominio.Cliente;
 
 import java.time.LocalDate;
@@ -14,7 +13,8 @@ public class ClienteDTO {
 
     private Long id;
 
-    //@CPF
+    @NotBlank
+    @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve estar no formato 000.000.000-00")
     private String cpf;
 
     @NotBlank
