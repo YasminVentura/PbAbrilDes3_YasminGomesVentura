@@ -33,7 +33,7 @@ public class RegrasServicoTest {
     private RegrasDTO criarRegraDTO() {
         RegrasDTO regrasDTO = new RegrasDTO();
         regrasDTO.setCategoria("Computador");
-        regrasDTO.setPariedade("10");
+        regrasDTO.setPariedade(10);
         return regrasDTO;
     }
 
@@ -41,7 +41,7 @@ public class RegrasServicoTest {
         Regras regras = new Regras();
         regras.setId(1L);
         regras.setCategoria("Computador");
-        regras.setPariedade("10");
+        regras.setPariedade(10);
         return regras;
     }
 
@@ -83,7 +83,7 @@ public class RegrasServicoTest {
         Long id = 1L;
         RegrasDTO regrasDTO = criarRegraDTO();
         regrasDTO.setCategoria("Eletrônicos");
-        regrasDTO.setPariedade("15");
+        regrasDTO.setPariedade(15);
 
         Regras regraExistente = criarRegra();
         regraExistente.setId(id);
