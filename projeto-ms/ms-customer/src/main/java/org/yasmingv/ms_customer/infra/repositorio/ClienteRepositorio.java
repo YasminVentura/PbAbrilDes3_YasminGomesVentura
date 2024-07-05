@@ -1,4 +1,4 @@
-package org.yasmingv.ms_customer.infra;
+package org.yasmingv.ms_customer.infra.repositorio;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.yasmingv.ms_customer.dominio.Cliente;

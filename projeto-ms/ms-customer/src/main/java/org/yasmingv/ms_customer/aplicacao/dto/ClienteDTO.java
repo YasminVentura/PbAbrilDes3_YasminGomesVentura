@@ -4,6 +4,7 @@ package org.yasmingv.ms_customer.aplicacao.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
 import org.yasmingv.ms_customer.dominio.Cliente;
 
 import java.time.LocalDate;
@@ -13,15 +14,16 @@ public class ClienteDTO {
 
     private Long id;
 
-    @NotBlank
-    @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve estar no formato 000.000.000-00")
+    @NotNull
+    @CPF
+    @Size(min = 14, max = 14)
     private String cpf;
 
     @NotBlank
     @Size(min = 3, message = "Nome deve ter pelo menos 3 caracteres")
     private String nome;
 
-    @NotBlank
+    @NotNull
     @Pattern(regexp = "Masculino|Feminino", message = "Apenas Masculino ou Feminino")
     private String genero;
 
@@ -29,7 +31,7 @@ public class ClienteDTO {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate aniversario;
 
-    @NotBlank
+    @NotNull
     @Email(message = "Formato de e-mail inválido")
     private String email;
 

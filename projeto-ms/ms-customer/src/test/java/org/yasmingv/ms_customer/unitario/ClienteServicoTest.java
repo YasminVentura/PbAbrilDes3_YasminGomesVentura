@@ -11,7 +11,7 @@ import org.yasmingv.ms_customer.aplicacao.dto.ClienteDTO;
 import org.yasmingv.ms_customer.dominio.Cliente;
 import org.yasmingv.ms_customer.excecoes.ex.ClienteNaoEncontradoExcecao;
 import org.yasmingv.ms_customer.excecoes.ex.EmailDuplicadoExcecao;
-import org.yasmingv.ms_customer.infra.ClienteRepositorio;
+import org.yasmingv.ms_customer.infra.repositorio.ClienteRepositorio;
 
 import java.time.LocalDate;
 import java.util.Optional;

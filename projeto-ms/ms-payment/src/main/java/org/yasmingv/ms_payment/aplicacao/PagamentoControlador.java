@@ -14,7 +14,7 @@ import org.yasmingv.ms_payment.aplicacao.dto.PagamentoDTO;
 @RequiredArgsConstructor
 public class PagamentoControlador {
 
-    private final PaymentService servico;
+    private final PagamentoServico servico;
 
     @PostMapping
     public ResponseEntity<PagamentoDTO> criarPagamento(@RequestBody PagamentoDTO pagamentoDTO) {

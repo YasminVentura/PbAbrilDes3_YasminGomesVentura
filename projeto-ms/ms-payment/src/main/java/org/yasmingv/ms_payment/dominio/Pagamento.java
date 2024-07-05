@@ -1,8 +1,7 @@
 package org.yasmingv.ms_payment.dominio;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
