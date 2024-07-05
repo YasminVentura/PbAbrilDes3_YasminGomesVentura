@@ -1,4 +1,4 @@
-package org.yasmingv.ms_payment.infra;
+package org.yasmingv.ms_payment.infra.repositorio;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.yasmingv.ms_payment.dominio.Pagamento;

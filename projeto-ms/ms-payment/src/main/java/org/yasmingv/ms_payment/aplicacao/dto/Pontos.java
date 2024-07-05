@@ -6,11 +6,11 @@ import java.io.Serializable;
 
 @Getter @Setter
 public class Pontos implements Serializable {
-    private Long clienteId;
+    private Long Id;
     private Integer pontos;
 
-    public Pontos(Long clienteId, Integer pontos) {
-        this.clienteId = clienteId;
+    public Pontos(Long Id, Integer pontos) {
+        this.Id = Id;
         this.pontos = pontos;
     }
 }
