@@ -27,7 +27,7 @@ public class PontosMensagem {
             Integer pontos = pontosMensagem.getPontos();
 
             Cliente cliente = repositorio.findById(clienteId)
-                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+                    .orElseThrow(() -> new ClienteNaoEncontradoExcecao("Cliente não encontrado"));
 
             cliente.setPontos(cliente.getPontos() + pontos);
             repositorio.save(cliente);

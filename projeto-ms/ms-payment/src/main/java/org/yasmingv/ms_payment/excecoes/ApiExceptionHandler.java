@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.yasmingv.ms_payment.excecoes.ex.ClienteNaoEncontradoExcecao;
+import org.yasmingv.ms_payment.excecoes.ex.IdNaoEncontradoExcecao;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -40,8 +40,8 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>(mensagemErro, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(ClienteNaoEncontradoExcecao.class)
-    public ResponseEntity<MensagemErro> handleClienteNaoEncontradoExcecao(ClienteNaoEncontradoExcecao ex) {
+    @ExceptionHandler(IdNaoEncontradoExcecao.class)
+    public ResponseEntity<MensagemErro> handleIdNaoEncontradoExcecao(IdNaoEncontradoExcecao ex) {
         MensagemErro mensagemErro = new MensagemErro();
         mensagemErro.setTimestamp(LocalDateTime.now());
         mensagemErro.setStatus(HttpStatus.NOT_FOUND.value());

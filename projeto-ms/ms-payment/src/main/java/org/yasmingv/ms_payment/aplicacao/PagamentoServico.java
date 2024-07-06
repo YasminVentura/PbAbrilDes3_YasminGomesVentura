@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.yasmingv.ms_payment.aplicacao.dto.PagamentoDTO;
 import org.yasmingv.ms_payment.aplicacao.dto.Pontos;
 import org.yasmingv.ms_payment.dominio.Pagamento;
-import org.yasmingv.ms_payment.excecoes.ex.ClienteNaoEncontradoExcecao;
+import org.yasmingv.ms_payment.excecoes.ex.IdNaoEncontradoExcecao;
 import org.yasmingv.ms_payment.infra.mqueue.PontosMensagem;
 import org.yasmingv.ms_payment.infra.repositorio.PagamentoRepositorio;
 import org.yasmingv.ms_payment.infra.feign.MsCalculate;
@@ -18,6 +18,7 @@ import org.yasmingv.ms_payment.infra.feign.dto.CalculadorResposta;
 import org.yasmingv.ms_payment.infra.feign.dto.ClienteDTO;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class PagamentoServico {
     public PagamentoDTO salvar(PagamentoDTO pagamentoDTO) {
         ResponseEntity<ClienteDTO> clienteResponse = msClienteFeign.buscarCliente(pagamentoDTO.getClienteId());
         if (!clienteResponse.getStatusCode().is2xxSuccessful() || clienteResponse.getBody() == null) {
-            throw new ClienteNaoEncontradoExcecao("Cliente não encontrado");
+            throw new IdNaoEncontradoExcecao("Cliente não encontrado");
         }
 
         Pagamento pagamento = pagamentoDTO.paraPagamento();
@@ -56,6 +57,13 @@ public class PagamentoServico {
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Erro ao enviar mensagem de pontos para o RabbitMQ", e);
         }
+
+        return new PagamentoDTO(pagamento);
+    }
+
+    public PagamentoDTO buscarPagamentoPorId(UUID id) {
+        Pagamento pagamento = repositorio.findById(id).
+                orElseThrow(() -> new IdNaoEncontradoExcecao("Pagamento não encontrado"));
 
         return new PagamentoDTO(pagamento);
     }
