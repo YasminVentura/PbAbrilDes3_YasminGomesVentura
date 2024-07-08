@@ -22,14 +22,14 @@ Este projeto é um desafio para criar uma aplicação para o Banco Americano, im
 ### MS Customer
 Responsável por armazenar os dados do usuário e seu total de pontos acumulados.
 
-![MS Customer](img/mscustomer.png)
+![MS Customer](doc/imagens/mscustomer.png)
 
 ### MS Calculate
 Responsável por calcular os pontos que serão acumulados em uma compra, baseado nas regras definidas.
 
-![MS Calculate](img/mscalculate.png)
+![MS Calculate](doc/imagens/mscalculate.png)
 
 ### MS Payment
 Responsável por simular o pagamento de uma compra com cartão de crédito do cliente. Após salvar o pagamento no banco de dados, o ms-payment envia uma mensagem ao ms-calculate para calcular o total de pontos acumulados. Em seguida, envia uma mensagem via RabbitMQ ao ms-customer com os pontos atualizados do cliente.
 
-![MS Payment](img/mspayment.png)
+![MS Payment](doc/imagens/mspayment.png)
