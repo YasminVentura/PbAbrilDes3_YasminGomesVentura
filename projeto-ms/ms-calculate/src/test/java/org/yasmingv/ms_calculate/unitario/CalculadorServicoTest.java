@@ -5,10 +5,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.yasmingv.ms_calculate.aplicacao.CalculadorServico;
-import org.yasmingv.ms_calculate.aplicacao.dto.CalculadorDTO;
+import org.yasmingv.ms_calculate.servico.CalculadorServico;
+import org.yasmingv.ms_calculate.dominio.dto.CalculadorDTO;
 import org.yasmingv.ms_calculate.dominio.Regras;
-import org.yasmingv.ms_calculate.infra.RegrasRepositorio;
+import org.yasmingv.ms_calculate.repositorio.RegrasRepositorio;
 
 import java.util.Optional;
 

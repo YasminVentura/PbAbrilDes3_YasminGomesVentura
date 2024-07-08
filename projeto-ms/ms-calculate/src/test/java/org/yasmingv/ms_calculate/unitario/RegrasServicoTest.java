@@ -6,11 +6,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.annotation.DirtiesContext;
-import org.yasmingv.ms_calculate.aplicacao.RegrasServico;
-import org.yasmingv.ms_calculate.aplicacao.dto.RegrasDTO;
+import org.yasmingv.ms_calculate.servico.RegrasServico;
+import org.yasmingv.ms_calculate.dominio.dto.RegrasDTO;
 import org.yasmingv.ms_calculate.dominio.Regras;
 import org.yasmingv.ms_calculate.excecoes.ex.RegraNaoEncontradoExcecao;
-import org.yasmingv.ms_calculate.infra.RegrasRepositorio;
+import org.yasmingv.ms_calculate.repositorio.RegrasRepositorio;
 
 import java.util.Arrays;
 import java.util.List;

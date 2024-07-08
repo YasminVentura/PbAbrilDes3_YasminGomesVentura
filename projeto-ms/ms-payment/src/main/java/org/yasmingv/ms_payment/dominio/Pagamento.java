@@ -14,7 +14,6 @@ public class Pagamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
 
     @Column(name = "CLIENTE_ID")

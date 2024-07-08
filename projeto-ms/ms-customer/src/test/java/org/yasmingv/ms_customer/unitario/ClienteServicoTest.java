@@ -6,12 +6,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.annotation.DirtiesContext;
-import org.yasmingv.ms_customer.aplicacao.ClienteServico;
-import org.yasmingv.ms_customer.aplicacao.dto.ClienteDTO;
+import org.yasmingv.ms_customer.servico.ClienteServico;
+import org.yasmingv.ms_customer.dominio.dto.ClienteDTO;
 import org.yasmingv.ms_customer.dominio.Cliente;
 import org.yasmingv.ms_customer.excecoes.ex.ClienteNaoEncontradoExcecao;
 import org.yasmingv.ms_customer.excecoes.ex.EmailDuplicadoExcecao;
-import org.yasmingv.ms_customer.infra.repositorio.ClienteRepositorio;
+import org.yasmingv.ms_customer.repositorio.ClienteRepositorio;
 
 import java.time.LocalDate;
 import java.util.Optional;
